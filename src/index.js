@@ -8,7 +8,6 @@ async function getWeather(zip) {
 
 const zipcode = document.querySelector("#zipcode");
 const searchButton = document.querySelector("#search");
-const city = document.querySelector(".city");
 
 searchButton.addEventListener("click", () => {
     getWeather(zipcode.value).then((data) => {
@@ -16,7 +15,32 @@ searchButton.addEventListener("click", () => {
     });
 });
 
+const location = document.querySelector("#location");
+const temp = document.querySelector("#temp");
+const conditions = document.querySelector("#conditions");
+const feelsLike = document.querySelector("#feelslike");
+
+// Helper Function
+function toFahrenheit(temp) {
+    return Math.round((1.8 * (temp - 273) + 32)) + "°";
+}
+
+// Helper Function
+function toTitleCase(string) {
+    string = string.toLowerCase();
+    string = string.split(" ");
+    
+    for (let i = 0; i < string.length; i++) {
+        string[i] = string[i].charAt(0).toUpperCase() + string[i].slice(1);
+    }
+
+    return string.join(" ");
+}
+
 function renderWeather(data) {
     // name, main.temp
-    console.log(data);
+    location.textContent = data.name;
+    temp.textContent = toFahrenheit(data.main.temp);
+    conditions.textContent = toTitleCase(data.weather[0].description);
+    feelsLike.textContent = "Feels like" + " " + toFahrenheit(data.main.feels_like);
 }
