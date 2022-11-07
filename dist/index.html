@@ -9,10 +9,19 @@
     <link rel="stylesheet" href="../src/styles.css">
 </head>
 <body>
-    <form class="weatherSearch">
-        <input type="text" autocomplete="off" id="zipcode" name="zipcode">
-        <button type="button" id="search">Search Weather</button>
-    </form>
-    <div class="city"></div>
+    <div class="header">Weather App</div>
+    <div class="content">
+        <div class="weatherData">
+            <h1 id="location">Los Angeles</h1>
+            <span id="conditions">Cloudy</span>
+            <span id="temp">70°</span>
+            <span id="feelslike">Feels like 85°</span>
+        </div>
+        <form class="weatherSearch">
+            <input type="text" autocomplete="off" id="zipcode" name="zipcode">
+            <button type="button" id="search">Search Weather</button>
+        </form>
+    </div>
+    <div class="footer">Made by jwjepson</div>
 </body>
 </html>
