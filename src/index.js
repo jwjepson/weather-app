@@ -86,8 +86,8 @@ function renderForcast(data) {
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const day_el = document.querySelectorAll(".day");
     const temp_el = document.querySelectorAll(".forcast-temp");
-
-    for (let i = 0, k = 3; i < day_el.length; i++) {
+    console.log(data);
+    for (let i = 0, k = 4; i < day_el.length; i++) {
         day_el[i].textContent = daysOfWeek[getDay(parseISO(data.list[k].dt_txt))];
         temp_el[i].textContent = toFahrenheit(data.list[k].main.temp);
         k = k + 8;
