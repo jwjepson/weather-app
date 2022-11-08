@@ -1,16 +1,40 @@
 
-
-async function getWeather(zip) {
-    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?zip=${zip},us&appid=f73501bec87ccad60630d02e191c918e`);
+async function successCallBack(position) {
+    let lat = position.coords.latitude;
+    let lon = position.coords.longitude;
+    let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=f73501bec87ccad60630d02e191c918e`)
     const data = await response.json();
-    return data;
+    renderWeather(data);
+};
+
+const errorCallback = (error) => {
+    console.log(error);
+};
+
+navigator.geolocation.getCurrentPosition(successCallBack, errorCallback);
+
+async function getWeather(location) {
+    if (isValidUSZip(location)) {
+        let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?zip=${location}&appid=f73501bec87ccad60630d02e191c918e`);
+        const data = await response.json();
+        return data;
+    }
+    else {
+        let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=f73501bec87ccad60630d02e191c918e`);
+        const data = await response.json();
+        return data;
+    }
 }
 
-const zipcode = document.querySelector("#zipcode");
+function isValidUSZip(sZip) {
+    return /^\d{5}(-\d{4})?$/.test(sZip);
+ }
+
+const locationInput = document.querySelector("#zipcode");
 const searchButton = document.querySelector("#search");
 
 searchButton.addEventListener("click", () => {
-    getWeather(zipcode.value).then((data) => {
+    getWeather(locationInput.value).then((data) => {
         renderWeather(data);
     });
 });
@@ -21,6 +45,7 @@ const conditions = document.querySelector("#conditions");
 const feelsLike = document.querySelector("#feelslike");
 
 // Helper Function
+
 function toFahrenheit(temp) {
     return Math.round((1.8 * (temp - 273) + 32)) + "°";
 }
