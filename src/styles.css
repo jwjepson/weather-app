@@ -31,7 +31,7 @@ h1 {
     background-size: cover;
     display: flex;
     flex-direction: column;
-    gap: 100px;
+    gap: 50px;
     justify-content: center;
     align-items: center;
 }
@@ -58,6 +58,33 @@ h1 {
     align-items: center;
     gap: 20px;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+.forcast {
+    display: flex;
+    gap: 100px;
+    background-color: rgba(0,0,0,0.4);
+    flex: 0 1 auto;
+    padding: 50px;
+    border-radius: 1em;
+    color: white;
+    letter-spacing: 3px;
+}
+
+.day-data {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.forcast-temp {
+    font-size: 30px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.forcast-conditions {
+    text-align: center;
 }
 
 #location {
