@@ -142,6 +142,11 @@ h1 {
     opacity: 90%;
 }
 
+.weather-icon {
+    height: 50px;
+    width: 50px;
+}
+
 @media screen and (max-width: 930px) {
     .forcast {
         flex-direction: column;
