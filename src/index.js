@@ -5,9 +5,12 @@ import { getDay, parseISO } from "date-fns";
 async function successCallBack(position) {
     let lat = position.coords.latitude;
     let lon = position.coords.longitude;
-    let response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=f73501bec87ccad60630d02e191c918e`)
-    const data = await response.json();
-    renderWeather(data);
+    let weather = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=f73501bec87ccad60630d02e191c918e`)
+    const weatherData = await weather.json();
+    renderWeather(weatherData);
+    let forcast = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=f73501bec87ccad60630d02e191c918e`)
+    const forcastData = await forcast.json();
+    renderForcast(forcastData);
 };
 
 const errorCallback = (error) => {
@@ -82,16 +85,36 @@ function renderWeather(data) {
     feelsLike.textContent = "Feels like" + " " + toFahrenheit(data.main.feels_like);
 }
 
+function getIconInfo(weatherCondition) {
+    if (weatherCondition == "Clear") {
+        return {src: "../src/clear.png", alt: "Clear weather icon",};
+    }
+    else if (weatherCondition == "Clouds") {
+        return {src: "../src/cloud.png", alt: "Cloudy weather icon",};
+    }
+    else if (weatherCondition == "Rain") {
+        return {src: "../src/rainy.png", alt: "Rainy weather icon",};
+    }
+    else if (weatherCondition == "Thunderstorm") {
+        return {src: "../src/storm.png", alt: "Stormy weather icon",};
+    }
+    else if (weatherCondition == "Snow") {
+        return {src: "../src/snow.png", alt: "Snowy weather icon",};
+    }
+}
+
 function renderForcast(data) {
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const day_el = document.querySelectorAll(".day");
     const temp_el = document.querySelectorAll(".forcast-temp");
+    const icon = document.querySelectorAll(".weather-icon");
     console.log(data);
-    for (let i = 0, k = 4; i < day_el.length; i++) {
+    for (let i = 0, k = 6; i < day_el.length; i++) {
         day_el[i].textContent = daysOfWeek[getDay(parseISO(data.list[k].dt_txt))];
         temp_el[i].textContent = toFahrenheit(data.list[k].main.temp);
+        icon[i].src = getIconInfo(data.list[k].weather[0].main).src;
+        icon[i].alt = getIconInfo(data.list[k].weather[0].main).alt;
         k = k + 8;
-        console.log(day_el[i].textContent);
     }
 }
 
