@@ -5,6 +5,8 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    background-image: url("./clear.jpg");
+    background-size: cover;
 }
 
 h1 {
@@ -13,7 +15,6 @@ h1 {
 }
 
 .header {
-    background-color: #8ccAF3;
     width: 100vw;
     height: 70px;
     flex: none;
@@ -21,13 +22,11 @@ h1 {
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 0 0 5px 10px #8ccAF3;
     z-index: 1;
 }
 
 .content {
     flex: auto;
-    background-image: url("./clear.jpg");
     background-size: cover;
     display: flex;
     flex-direction: column;
@@ -37,7 +36,6 @@ h1 {
 }
 
 .footer {
-    background-color: #DDEFFB;
     width: 100vw;
     height: 50px;
     flex: none;
@@ -45,7 +43,6 @@ h1 {
     justify-content: center;
     align-items: center;
     z-index: 1;
-    box-shadow: 0 0 5px 10px #DDEFFB;
 }
 
 .weatherData {
