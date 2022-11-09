@@ -82,6 +82,15 @@ function renderWeather(data) {
     location.textContent = data.name;
     temp.textContent = toFahrenheit(data.main.temp);
     conditions.textContent = toTitleCase(data.weather[0].description);
+    if (data.weather[0].main == "Rain" || data.weather[0].main == "Drizzle") {
+        document.body.style.backgroundImage = "url(../src/rainy.jpg";
+    }
+    else if (data.weather[0].main == "Clear") {
+        document.body.style.backgroundImage = "url(../src/clear.jpg";
+    }
+    else {
+        document.body.style.backgroundImage = "url(../src/cloudy.jpg";
+    }
     feelsLike.textContent = "Feels like" + " " + toFahrenheit(data.main.feels_like);
 }
 
