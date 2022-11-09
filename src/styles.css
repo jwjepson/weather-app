@@ -62,19 +62,21 @@ h1 {
 
 .forcast {
     display: flex;
-    gap: 100px;
     background-color: rgba(0,0,0,0.4);
-    flex: 0 1 auto;
+    justify-content: space-between;
     padding: 50px;
     border-radius: 1em;
     color: white;
     letter-spacing: 3px;
+    width: 60%;
 }
 
 .day-data {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    justify-content: center;
+    align-items: center;
 }
 
 .forcast-temp {
@@ -138,4 +140,23 @@ h1 {
 #search:hover {
     cursor: pointer;
     opacity: 90%;
+}
+
+@media screen and (max-width: 930px) {
+    .forcast {
+        flex-direction: column;
+        gap: 70px;
+        width: 260px;
+        margin-bottom: 50px;
+    }
+    .day-data {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    .weatherData {
+        margin-top: 50px;
+    }
+    .forcast-temp {
+        margin-top: 0px;
+    }
 }
