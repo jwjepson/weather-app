@@ -1,4 +1,5 @@
-import { getDay, parseISO } from "date-fns";
+import { renderForcast, renderWeather } from "./renderDom";
+import { errorHandler, isValidUSZip } from "./helpers";
 import "./styles.css";
 
 
@@ -41,11 +42,7 @@ async function getForcast(location) {
     }
 }
 
-function isValidUSZip(sZip) {
-    return /^\d{5}(-\d{4})?$/.test(sZip);
- }
-
-const locationInput = document.querySelector("#zipcode");
+const locationInput = document.querySelector("#location-input");
 const searchButton = document.querySelector("#search");
 
 searchButton.addEventListener("click", () => {
@@ -56,107 +53,12 @@ searchButton.addEventListener("click", () => {
     getWeather(locationInput.value).then((data) => {
         renderWeather(data);
     }).catch(() => {
-        errorHandler("404");
+        errorHandler();
     })
     
     getForcast(locationInput.value).then((data) => {
         renderForcast(data);
     }).catch(() => {
-        errorHandler("404");
+        errorHandler();
     })
 });
-
-const location = document.querySelector("#location");
-const temp = document.querySelector("#temp");
-const conditions = document.querySelector("#conditions");
-const feelsLike = document.querySelector("#feelslike");
-
-// Helper Function
-
-function toFahrenheit(temp) {
-    return Math.round((1.8 * (temp - 273) + 32)) + "°";
-}
-
-// Helper Function
-function toTitleCase(string) {
-    string = string.toLowerCase();
-    string = string.split(" ");
-    
-    for (let i = 0; i < string.length; i++) {
-        string[i] = string[i].charAt(0).toUpperCase() + string[i].slice(1);
-    }
-
-    return string.join(" ");
-}
-
-// Helper Function
-function clearData() {
-    const day_container = document.querySelectorAll(".day-data");
-    day_container.forEach((day) => {
-        day.style.display = "none";
-    })
-    location.textContent = "";
-    temp.textContent = "";
-    conditions.textContent = "";
-    feelsLike.textContent = "";
-}
-
-function errorHandler() {
-    clearData();
-    const error_el = document.querySelectorAll(".error");
-    error_el.forEach((error) => {
-        error.style.display = "flex";
-        error.textContent = "No location data available";
-    })
-}
-
-function renderWeather(data) {
-    // name, main.temp
-    location.textContent = data.name;
-    temp.textContent = toFahrenheit(data.main.temp);
-    conditions.textContent = toTitleCase(data.weather[0].description);
-    if (data.weather[0].main == "Rain" || data.weather[0].main == "Drizzle") {
-        document.body.style.backgroundImage = "url(../src/backgrounds/rainy.jpg";
-    }
-    else if (data.weather[0].main == "Clear") {
-        document.body.style.backgroundImage = "url(../src/backgrounds/clear.jpg";
-    }
-    else {
-        document.body.style.backgroundImage = "url(../src/backgrounds/cloudy.jpg";
-    }
-    feelsLike.textContent = "Feels like" + " " + toFahrenheit(data.main.feels_like);
-}
-
-function getIconInfo(weatherCondition) {
-    if (weatherCondition == "Clear") {
-        return {src: "../src/icons/clear.png", alt: "Clear weather icon",};
-    }
-    else if (weatherCondition == "Clouds") {
-        return {src: "../src/icons/cloud.png", alt: "Cloudy weather icon",};
-    }
-    else if (weatherCondition == "Rain") {
-        return {src: "../src/icons/rainy.png", alt: "Rainy weather icon",};
-    }
-    else if (weatherCondition == "Thunderstorm") {
-        return {src: "../src/icons/storm.png", alt: "Stormy weather icon",};
-    }
-    else if (weatherCondition == "Snow") {
-        return {src: "../src/icons/snow.png", alt: "Snowy weather icon",};
-    }
-}
-
-function renderForcast(data) {
-    const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    const day_container = document.querySelectorAll(".day-data");
-    const day_el = document.querySelectorAll(".day");
-    const temp_el = document.querySelectorAll(".forcast-temp");
-    const icon = document.querySelectorAll(".weather-icon");
-    for (let i = 0, k = 6; i < day_el.length; i++) {
-        day_container[i].style.display = "flex";
-        day_el[i].textContent = daysOfWeek[getDay(parseISO(data.list[k].dt_txt))];
-        temp_el[i].textContent = toFahrenheit(data.list[k].main.temp);
-        icon[i].src = getIconInfo(data.list[k].weather[0].main).src;
-        icon[i].alt = getIconInfo(data.list[k].weather[0].main).alt;
-        k = k + 8;
-    }
-}
