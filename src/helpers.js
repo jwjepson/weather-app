@@ -1,3 +1,10 @@
+import ClearIcon from "./icons/clear.png";
+import CloudyIcon from "./icons/cloud.png";
+import RainyIcon from "./icons/rainy.png";
+import SnowyIcon from "./icons/snow.png";
+import StormyIcon from "./icons/storm.png";
+
+
 const location = document.querySelector("#location");
 const temp = document.querySelector("#temp");
 const conditions = document.querySelector("#conditions");
@@ -44,19 +51,19 @@ function isValidUSZip(sZip) {
 
 function getIconInfo(weatherCondition) {
     if (weatherCondition == "Clear") {
-        return {src: "../src/icons/clear.png", alt: "Clear weather icon",};
+        return {src: `${ClearIcon}`, alt: "Clear weather icon",};
     }
     else if (weatherCondition == "Clouds") {
-        return {src: "../src/icons/cloud.png", alt: "Cloudy weather icon",};
+        return {src: `${CloudyIcon}`, alt: "Cloudy weather icon",};
     }
     else if (weatherCondition == "Rain") {
-        return {src: "../src/icons/rainy.png", alt: "Rainy weather icon",};
+        return {src: `${RainyIcon}`, alt: "Rainy weather icon",};
     }
     else if (weatherCondition == "Thunderstorm") {
-        return {src: "../src/icons/storm.png", alt: "Stormy weather icon",};
+        return {src: `${StormyIcon}`, alt: "Stormy weather icon",};
     }
     else if (weatherCondition == "Snow") {
-        return {src: "../src/icons/snow.png", alt: "Snowy weather icon",};
+        return {src: `${SnowyIcon}`, alt: "Snowy weather icon",};
     }
 }
 
