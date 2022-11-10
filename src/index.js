@@ -1,5 +1,5 @@
 import { getDay, parseISO } from "date-fns";
-
+import "./styles.css";
 
 
 async function successCallBack(position) {
@@ -116,32 +116,32 @@ function renderWeather(data) {
     temp.textContent = toFahrenheit(data.main.temp);
     conditions.textContent = toTitleCase(data.weather[0].description);
     if (data.weather[0].main == "Rain" || data.weather[0].main == "Drizzle") {
-        document.body.style.backgroundImage = "url(../src/rainy.jpg";
+        document.body.style.backgroundImage = "url(../src/backgrounds/rainy.jpg";
     }
     else if (data.weather[0].main == "Clear") {
-        document.body.style.backgroundImage = "url(../src/clear.jpg";
+        document.body.style.backgroundImage = "url(../src/backgrounds/clear.jpg";
     }
     else {
-        document.body.style.backgroundImage = "url(../src/cloudy.jpg";
+        document.body.style.backgroundImage = "url(../src/backgrounds/cloudy.jpg";
     }
     feelsLike.textContent = "Feels like" + " " + toFahrenheit(data.main.feels_like);
 }
 
 function getIconInfo(weatherCondition) {
     if (weatherCondition == "Clear") {
-        return {src: "../src/clear.png", alt: "Clear weather icon",};
+        return {src: "../src/icons/clear.png", alt: "Clear weather icon",};
     }
     else if (weatherCondition == "Clouds") {
-        return {src: "../src/cloud.png", alt: "Cloudy weather icon",};
+        return {src: "../src/icons/cloud.png", alt: "Cloudy weather icon",};
     }
     else if (weatherCondition == "Rain") {
-        return {src: "../src/rainy.png", alt: "Rainy weather icon",};
+        return {src: "../src/icons/rainy.png", alt: "Rainy weather icon",};
     }
     else if (weatherCondition == "Thunderstorm") {
-        return {src: "../src/storm.png", alt: "Stormy weather icon",};
+        return {src: "../src/icons/storm.png", alt: "Stormy weather icon",};
     }
     else if (weatherCondition == "Snow") {
-        return {src: "../src/snow.png", alt: "Snowy weather icon",};
+        return {src: "../src/icons/snow.png", alt: "Snowy weather icon",};
     }
 }
 
