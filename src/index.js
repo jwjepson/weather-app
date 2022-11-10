@@ -13,11 +13,7 @@ async function successCallBack(position) {
     renderForcast(forcastData);
 };
 
-const errorCallback = (error) => {
-    console.log(error);
-};
-
-navigator.geolocation.getCurrentPosition(successCallBack, errorCallback);
+navigator.geolocation.getCurrentPosition(successCallBack, errorHandler);
 
 async function getWeather(location) {
     if (isValidUSZip(location)) {
@@ -33,9 +29,16 @@ async function getWeather(location) {
 }
 
 async function getForcast(location) {
-    let response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?zip=${location}&appid=f73501bec87ccad60630d02e191c918e`);
-    const data = await response.json();
-    return data;
+    if (isValidUSZip(location)) {
+        let response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?zip=${location}&appid=f73501bec87ccad60630d02e191c918e`);
+        const data = await response.json();
+        return data;
+    }
+    else {
+        let response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${location}&appid=f73501bec87ccad60630d02e191c918e`);
+        const data = await response.json();
+        return data;
+    }
 }
 
 function isValidUSZip(sZip) {
@@ -46,11 +49,20 @@ const locationInput = document.querySelector("#zipcode");
 const searchButton = document.querySelector("#search");
 
 searchButton.addEventListener("click", () => {
+    const error_el = document.querySelectorAll(".error");
+    error_el.forEach((error) => {
+        error.style.display = "none";
+    })
     getWeather(locationInput.value).then((data) => {
         renderWeather(data);
-    });
+    }).catch(() => {
+        errorHandler("404");
+    })
+    
     getForcast(locationInput.value).then((data) => {
         renderForcast(data);
+    }).catch(() => {
+        errorHandler("404");
     })
 });
 
@@ -75,6 +87,27 @@ function toTitleCase(string) {
     }
 
     return string.join(" ");
+}
+
+// Helper Function
+function clearData() {
+    const day_container = document.querySelectorAll(".day-data");
+    day_container.forEach((day) => {
+        day.style.display = "none";
+    })
+    location.textContent = "";
+    temp.textContent = "";
+    conditions.textContent = "";
+    feelsLike.textContent = "";
+}
+
+function errorHandler() {
+    clearData();
+    const error_el = document.querySelectorAll(".error");
+    error_el.forEach((error) => {
+        error.style.display = "flex";
+        error.textContent = "No location data available";
+    })
 }
 
 function renderWeather(data) {
@@ -114,11 +147,12 @@ function getIconInfo(weatherCondition) {
 
 function renderForcast(data) {
     const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const day_container = document.querySelectorAll(".day-data");
     const day_el = document.querySelectorAll(".day");
     const temp_el = document.querySelectorAll(".forcast-temp");
     const icon = document.querySelectorAll(".weather-icon");
-    console.log(data);
     for (let i = 0, k = 6; i < day_el.length; i++) {
+        day_container[i].style.display = "flex";
         day_el[i].textContent = daysOfWeek[getDay(parseISO(data.list[k].dt_txt))];
         temp_el[i].textContent = toFahrenheit(data.list[k].main.temp);
         icon[i].src = getIconInfo(data.list[k].weather[0].main).src;
@@ -126,7 +160,3 @@ function renderForcast(data) {
         k = k + 8;
     }
 }
-
-getForcast().then((data) => {
-    renderForcast(data);
-})
