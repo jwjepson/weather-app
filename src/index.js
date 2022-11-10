@@ -2,7 +2,6 @@ import { renderForcast, renderWeather } from "./renderDom";
 import { errorHandler, isValidUSZip } from "./helpers";
 import "./styles.css";
 
-
 async function successCallBack(position) {
     let lat = position.coords.latitude;
     let lon = position.coords.longitude;
