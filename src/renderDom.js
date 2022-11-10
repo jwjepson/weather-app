@@ -1,5 +1,8 @@
 import { getDay, parseISO } from "date-fns";
 import {getIconInfo, toFahrenheit, toTitleCase} from "./helpers";
+import RainyBackground from "../src/backgrounds/rainy.jpg";
+import CloudyBackground from "../src/backgrounds/cloudy.jpg";
+import ClearBackground from "../src/backgrounds/clear.jpg";
 
 const location = document.querySelector("#location");
 const temp = document.querySelector("#temp");
@@ -12,13 +15,13 @@ function renderWeather(data) {
     temp.textContent = toFahrenheit(data.main.temp);
     conditions.textContent = toTitleCase(data.weather[0].description);
     if (data.weather[0].main == "Rain" || data.weather[0].main == "Drizzle") {
-        document.body.style.backgroundImage = "url(../src/backgrounds/rainy.jpg";
+        document.body.style.backgroundImage = `url(${RainyBackground})`;
     }
     else if (data.weather[0].main == "Clear") {
-        document.body.style.backgroundImage = "url(../src/backgrounds/clear.jpg";
+        document.body.style.backgroundImage = `url(${ClearBackground})`;
     }
     else {
-        document.body.style.backgroundImage = "url(../src/backgrounds/cloudy.jpg";
+        document.body.style.backgroundImage = `url(${CloudyBackground})`;
     }
     feelsLike.textContent = "Feels like" + " " + toFahrenheit(data.main.feels_like);
 }
